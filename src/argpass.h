@@ -24,4 +24,6 @@ struct arguments arguments;
 void argumentsInit();
 void argumentsApply(int argc,char** argv);
 
+char* getHomePath();
+
 #endif

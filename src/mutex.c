@@ -1,18 +1,24 @@
 #include"mutex.h"
+#include"argpass.h"
 
+#include<stdlib.h>
 #include<stdio.h>
 #include<sys/file.h>
 #include<errno.h>
-
-#define LOCK_PATH "/var/run/blezz/lock"
+#include<string.h>
 
 int pid_file;
 int rc;
 
 void applicationLock(){
-    pid_file = open("/var/run/blezz/lock", O_CREAT | O_RDWR, 0666);
+    char* homePath = getHomePath();
+    char* defaultLockFile = ".blezz.lock";
+    char* lockFile = (char*)malloc((strlen(homePath)+strlen(defaultLockFile)+1)*sizeof(char));
+    sprintf(lockFile,"%s/%s",homePath,defaultLockFile);
+
+    pid_file = open(lockFile, O_CREAT | O_RDWR, 0666);
     if (pid_file == -1){
-        printf("Failed creating the application lock, make sure the directory /var/run/blezz/ exist, and is executable by your user.\n");
+        printf("Failed creating the application lock, make sure the directory %s exist, and is executable by your user.\n", lockFile);
     }
     rc = flock(pid_file, LOCK_EX | LOCK_NB);
 }
