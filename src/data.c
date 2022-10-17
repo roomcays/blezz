@@ -33,7 +33,7 @@ Dir* newDirFromRef(char* string, Dir* parent){
     int labelLength = strlen(string)-labelIndex-1;
     
     Dir* dir = (Dir*)malloc(sizeof(Dir));
-    dir->key = tolower(string[keyIndex]);
+    dir->key = string[keyIndex];
     dir->label = (char*)malloc(sizeof(char)*(labelLength+1));
     strncpy(dir->label,string+labelIndex,labelLength);
     dir->label[labelLength]='\0';
@@ -66,7 +66,7 @@ Act* newActFromRef(char* string, Dir* parent){
     int disownStringLength = 8;
 
     Act* act = (Act*)malloc(sizeof(Act));
-    act->key = tolower(string[keyIndex]);
+    act->key = string[keyIndex];
     act->label = (char*)malloc(sizeof(char)*(labelLength+1));
     strncpy(act->label,string+labelIndex,labelLength);
     act->label[labelLength] = '\0';
@@ -174,13 +174,13 @@ char** dirToStrings(char** ret, int* count) {
 
     for(int i = 0; i < savedDirs; i++) {
         if (allDirs[i]->parent == dir) {
-            sprintf(ret[index++],"%c [%c] %s",arguments.dirS, (arguments.keyAsUpper?toupper(allDirs[i]->key):allDirs[i]->key), allDirs[i]->label);
+            sprintf(ret[index++],"%c [%c] %s",arguments.dirS, allDirs[i]->key, allDirs[i]->label);
         }
     }
     
     for(int i = 0; i < savedActs; i++) {
         if (allActs[i]->parent == dir) {
-            sprintf(ret[index++],"%c [%c] %s",arguments.actS, (arguments.keyAsUpper?toupper(allActs[i]->key):allActs[i]->key), allActs[i]->label);
+            sprintf(ret[index++],"%c [%c] %s",arguments.actS, allActs[i]->key, allActs[i]->label);
         }
     }  
 
